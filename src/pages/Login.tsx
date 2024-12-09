@@ -27,9 +27,7 @@ const Login = () => {
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
-        },
-        data: {
-          role: role,
+          role: role // Pass the role as a query parameter
         }
       },
     });
