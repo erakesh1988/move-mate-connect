@@ -24,21 +24,25 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        midnight: "#00005C",
+        powderblue: "#EAF5FE",
+        coral: "#FC8176",
+        mint: "#8FE7AD",
         primary: {
-          DEFAULT: "#9b87f5",
+          DEFAULT: "#FC8176",
           foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "#7E69AB",
-          foreground: "#ffffff",
+          DEFAULT: "#8FE7AD",
+          foreground: "#00005C",
         },
         muted: {
-          DEFAULT: "#F6F6F7",
-          foreground: "#666666",
+          DEFAULT: "#EAF5FE",
+          foreground: "#00005C",
         },
         accent: {
-          DEFAULT: "#D6BCFA",
-          foreground: "#1A1F2C",
+          DEFAULT: "#8FE7AD",
+          foreground: "#00005C",
         },
       },
       borderRadius: {
