@@ -2,10 +2,11 @@ import { useAuth } from "@/components/AuthProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { House, Smile, User, CheckCircle, Info, ArrowRight, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Routes, Route } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import CustomerProfile from "./customer/Profile";
 
-const CustomerDashboard = () => {
+const CustomerDashboardHome = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -21,19 +22,19 @@ const CustomerDashboard = () => {
       icon: <User className="w-6 h-6 text-primary" />,
       title: "Complete Your Profile",
       description: "Help us understand your preferences better.",
-      action: () => navigate("/dashboard/customer/profile"),
+      action: () => navigate("profile"),
     },
     {
       icon: <Gift className="w-6 h-6 text-primary" />,
       title: "Explore Services",
       description: "Discover our range of moving services tailored for you.",
-      action: () => navigate("/dashboard/customer/services"),
+      action: () => navigate("services"),
     },
     {
       icon: <CheckCircle className="w-6 h-6 text-primary" />,
       title: "Plan Your Move",
       description: "Start planning your move with our interactive tools.",
-      action: () => navigate("/dashboard/customer/plan"),
+      action: () => navigate("plan"),
     },
   ];
 
@@ -97,6 +98,15 @@ const CustomerDashboard = () => {
         </Card>
       </div>
     </div>
+  );
+};
+
+const CustomerDashboard = () => {
+  return (
+    <Routes>
+      <Route index element={<CustomerDashboardHome />} />
+      <Route path="profile" element={<CustomerProfile />} />
+    </Routes>
   );
 };
 
