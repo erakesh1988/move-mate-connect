@@ -9,7 +9,240 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      customer_preferences: {
+        Row: {
+          created_at: string
+          customer_id: string | null
+          id: string
+          preference_type: string
+          preference_value: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          preference_type: string
+          preference_value: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          preference_type?: string
+          preference_value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_preferences_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      moves: {
+        Row: {
+          created_at: string
+          current_location: string | null
+          customer_id: string | null
+          destination: string | null
+          id: string
+          move_date: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_location?: string | null
+          customer_id?: string | null
+          destination?: string | null
+          id?: string
+          move_date?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_location?: string | null
+          customer_id?: string | null
+          destination?: string | null
+          id?: string
+          move_date?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "moves_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      neighborhoods: {
+        Row: {
+          city: string
+          coordinates: unknown | null
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          city: string
+          coordinates?: unknown | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          city?: string
+          coordinates?: unknown | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      partner_customers: {
+        Row: {
+          created_at: string
+          customer_id: string | null
+          id: string
+          partner_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          partner_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          partner_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_customers_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_customers_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      points_of_interest: {
+        Row: {
+          coordinates: unknown | null
+          created_at: string
+          id: string
+          name: string
+          neighborhood_id: string | null
+          type: string
+        }
+        Insert: {
+          coordinates?: unknown | null
+          created_at?: string
+          id?: string
+          name: string
+          neighborhood_id?: string | null
+          type: string
+        }
+        Update: {
+          coordinates?: unknown | null
+          created_at?: string
+          id?: string
+          name?: string
+          neighborhood_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "points_of_interest_neighborhood_id_fkey"
+            columns: ["neighborhood_id"]
+            isOneToOne: false
+            referencedRelation: "neighborhoods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      saved_neighborhoods: {
+        Row: {
+          created_at: string
+          customer_id: string | null
+          id: string
+          neighborhood_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          neighborhood_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string | null
+          id?: string
+          neighborhood_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_neighborhoods_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saved_neighborhoods_neighborhood_id_fkey"
+            columns: ["neighborhood_id"]
+            isOneToOne: false
+            referencedRelation: "neighborhoods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +251,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "customer" | "vendor" | "partner" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
