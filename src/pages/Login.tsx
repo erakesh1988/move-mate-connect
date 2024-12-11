@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
 import { USER_ROLES, type UserRole } from "@/constants/auth";
+import { toast } from "sonner";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,7 +13,10 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      const role = user.user_metadata?.role || 'customer';
+      console.log("User authenticated, redirecting to dashboard with role:", role);
+      navigate(`/dashboard/${role}`);
+      toast.success(`Welcome back!`);
     }
   }, [user, navigate]);
 

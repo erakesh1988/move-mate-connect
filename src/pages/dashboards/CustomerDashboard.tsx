@@ -1,13 +1,13 @@
 import { useAuth } from "@/components/AuthProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { House, Smile, User, CheckCircle, Info, ArrowRight, Gift } from "lucide-react";
+import { House, Smile, User, CheckCircle, Info, ArrowRight, Gift, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import CustomerProfile from "./customer/Profile";
 
 const CustomerDashboardHome = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const firstName = user?.user_metadata?.first_name || 'there';
@@ -41,14 +41,24 @@ const CustomerDashboardHome = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-powderblue to-white p-8">
       <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
-        {/* Welcome Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold text-midnight">
-            Welcome, {firstName}! <Smile className="inline-block w-8 h-8 text-coral ml-2" />
-          </h1>
-          <p className="text-lg text-gray-600">
-            Let's make your moving journey smooth and enjoyable
-          </p>
+        {/* Header with Sign Out */}
+        <div className="flex justify-between items-center">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-bold text-midnight">
+              Welcome, {firstName}! <Smile className="inline-block w-8 h-8 text-coral ml-2" />
+            </h1>
+            <p className="text-lg text-gray-600">
+              Let's make your moving journey smooth and enjoyable
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={signOut}
+            className="flex items-center gap-2 hover:bg-red-50 hover:text-red-600"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign Out
+          </Button>
         </div>
 
         {/* Quick Start Guide */}

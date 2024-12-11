@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
+import { toast } from "sonner";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
@@ -10,7 +11,9 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!loading) {
       if (!user) {
+        console.log("No user found, redirecting to login");
         navigate("/login");
+        toast.error("Please sign in to access this page");
       } else {
         // Get user role from metadata
         const userRole = user.user_metadata?.role || 'customer';
@@ -20,7 +23,9 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         if (currentPath.includes('/dashboard')) {
           const allowedPath = `/dashboard/${userRole}`;
           if (!currentPath.startsWith(allowedPath)) {
+            console.log("User accessing wrong dashboard, redirecting to:", allowedPath);
             navigate(allowedPath);
+            toast.error("You don't have access to this dashboard");
           }
         }
       }
