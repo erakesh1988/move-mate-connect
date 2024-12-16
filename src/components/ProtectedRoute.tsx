@@ -23,6 +23,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         if (currentPath.includes('/dashboard')) {
           const allowedPath = `/dashboard/${userRole}`;
           if (!currentPath.startsWith(allowedPath)) {
+            console.log(`User role: ${userRole}, Current path: ${currentPath}`);
             console.log("User accessing wrong dashboard, redirecting to:", allowedPath);
             navigate(allowedPath);
             toast.error("You don't have access to this dashboard");
