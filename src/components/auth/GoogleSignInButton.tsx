@@ -18,11 +18,9 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
-          supabase: {
-            metadata: {
-              role: role
-            }
-          }
+        },
+        data: {
+          role: role
         }
       },
     });
