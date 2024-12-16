@@ -1,9 +1,11 @@
 import { useAuth } from "@/components/AuthProvider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building, Users, BadgeCheck, TrendingUp, LogOut } from "lucide-react";
+import { Building, Users, BadgeCheck, TrendingUp, LogOut, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import PartnerProfile from "./partner/Profile";
+import PartnerCustomers from "./partner/Customers";
 
 const PartnerDashboardHome = () => {
   const { user, signOut } = useAuth();
@@ -11,29 +13,34 @@ const PartnerDashboardHome = () => {
   const { toast } = useToast();
   const firstName = user?.user_metadata?.first_name || 'Partner';
 
-  const onboardingSteps = [
+  const dashboardCards = [
     {
-      icon: <Building className="w-6 h-6 text-primary" />,
-      title: "Welcome Partner",
-      description: "Start your journey as a moving service partner.",
-    },
-    {
-      icon: <Users className="w-6 h-6 text-primary" />,
+      icon: <Users className="w-12 h-12 text-coral" />,
       title: "Manage Customers",
       description: "View and manage your customer relationships.",
       action: () => navigate("customers"),
+      metric: "0 Active",
     },
     {
-      icon: <BadgeCheck className="w-6 h-6 text-primary" />,
-      title: "Complete Profile",
-      description: "Set up your business profile and services.",
+      icon: <Building className="w-12 h-12 text-coral" />,
+      title: "Partner Profile",
+      description: "Complete your business profile and services.",
       action: () => navigate("profile"),
+      metric: "Incomplete",
     },
     {
-      icon: <TrendingUp className="w-6 h-6 text-primary" />,
-      title: "View Analytics",
-      description: "Track your performance and growth.",
+      icon: <TrendingUp className="w-12 h-12 text-coral" />,
+      title: "Performance",
+      description: "Track your business metrics and growth.",
       action: () => navigate("analytics"),
+      metric: "View Stats",
+    },
+    {
+      icon: <BadgeCheck className="w-12 h-12 text-coral" />,
+      title: "Verification",
+      description: "Complete your partner verification process.",
+      action: () => navigate("verification"),
+      metric: "Pending",
     },
   ];
 
@@ -41,7 +48,7 @@ const PartnerDashboardHome = () => {
     <div className="min-h-screen bg-gradient-to-b from-powderblue to-white p-8">
       <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
         <div className="flex justify-between items-center">
-          <div className="text-center space-y-4">
+          <div className="space-y-1">
             <h1 className="text-4xl font-bold text-midnight">
               Welcome, {firstName}!
             </h1>
@@ -59,46 +66,33 @@ const PartnerDashboardHome = () => {
           </Button>
         </div>
 
-        <Card className="border-2 border-coral/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              Partner Dashboard
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {onboardingSteps.map((step, index) => (
-                <Card 
-                  key={index}
-                  className="relative overflow-hidden group hover:border-coral transition-colors duration-300"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {dashboardCards.map((card, index) => (
+            <Card 
+              key={index}
+              className="relative overflow-hidden group hover:border-coral transition-colors duration-300"
+            >
+              <CardContent className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  {card.icon}
+                  <span className="text-sm font-medium text-gray-500">
+                    {card.metric}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-xl text-midnight mb-2">{card.title}</h3>
+                <p className="text-gray-600 mb-4">{card.description}</p>
+                <Button
+                  onClick={card.action}
+                  variant="ghost"
+                  className="w-full justify-between hover:bg-coral/10"
                 >
-                  <CardContent className="p-6 space-y-4">
-                    <div className="flex justify-between items-start">
-                      {step.icon}
-                    </div>
-                    <h3 className="font-semibold text-lg text-midnight">{step.title}</h3>
-                    <p className="text-sm text-gray-600">{step.description}</p>
-                    {step.action && (
-                      <Button
-                        onClick={() => {
-                          step.action();
-                          toast({
-                            title: "Navigating to " + step.title,
-                            description: "Loading your personalized experience...",
-                          });
-                        }}
-                        variant="ghost"
-                        className="w-full mt-4 hover:bg-coral/10"
-                      >
-                        Get Started
-                      </Button>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                  Get Started
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -108,6 +102,8 @@ const PartnerDashboard = () => {
   return (
     <Routes>
       <Route index element={<PartnerDashboardHome />} />
+      <Route path="profile" element={<PartnerProfile />} />
+      <Route path="customers" element={<PartnerCustomers />} />
     </Routes>
   );
 };
