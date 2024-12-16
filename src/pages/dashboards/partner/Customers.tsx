@@ -1,10 +1,18 @@
 import { useAuth } from "@/components/AuthProvider";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/lib/supabase";
+import { Card, CardContent } from "@/components/ui/card";
 import { Users, UserPlus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const PartnerCustomers = () => {
   const { user } = useAuth();
@@ -17,7 +25,7 @@ const PartnerCustomers = () => {
         .from('partner_customers')
         .select(`
           customer_id,
-          profiles:customer_id (
+          profiles!partner_customers_customer_id_fkey (
             first_name,
             last_name
           )
@@ -51,37 +59,43 @@ const PartnerCustomers = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {customers?.map((customer) => (
-            <Card key={customer.customer_id} className="hover:border-coral transition-colors">
-              <CardContent className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-coral/10 flex items-center justify-center">
-                    <Users className="w-6 h-6 text-coral" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg">
-                      {customer.profiles.first_name} {customer.profiles.last_name}
-                    </h3>
-                    <p className="text-sm text-gray-500">Customer</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="bg-white rounded-lg shadow">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {customers?.map((customer) => (
+                <TableRow key={customer.customer_id}>
+                  <TableCell>
+                    {customer.profiles.first_name} {customer.profiles.last_name}
+                  </TableCell>
+                  <TableCell>Active</TableCell>
+                  <TableCell>
+                    <Button variant="ghost" size="sm">
+                      View Details
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+              {customers?.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center py-8">
+                    <div className="text-gray-500">
+                      <Users className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                      <p className="font-medium">No Customers Yet</p>
+                      <p className="text-sm">Start adding customers to manage their moves.</p>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </div>
-
-        {customers?.length === 0 && (
-          <Card className="border-dashed border-2 border-gray-300">
-            <CardContent className="p-6">
-              <div className="text-center space-y-2">
-                <Users className="w-12 h-12 text-gray-400 mx-auto" />
-                <h3 className="text-lg font-semibold text-gray-600">No Customers Yet</h3>
-                <p className="text-gray-500">Start adding customers to manage their moves.</p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
       </div>
     </div>
   );
