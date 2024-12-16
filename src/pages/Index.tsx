@@ -1,8 +1,21 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavBar } from "@/components/NavBar";
 import { SearchDestination } from "@/components/SearchDestination";
 import { ExpertCard } from "@/components/ExpertCard";
+import { useAuth } from "@/components/AuthProvider";
 
 const Index = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      const role = user.user_metadata?.role || 'customer';
+      navigate(`/dashboard/${role}`);
+    }
+  }, [user, navigate]);
+
   return (
     <div className="min-h-screen bg-powderblue">
       <NavBar />
