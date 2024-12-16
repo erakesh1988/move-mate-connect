@@ -14,10 +14,12 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/dashboard/customer`,
+        redirectTo: `${window.location.origin}/dashboard/${role}`,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
+        },
+        data: {
           role: role
         }
       },
