@@ -30,12 +30,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (session?.user) {
           setUser(session.user);
           
-          // Get role from metadata
+          // Get role from metadata or URL
+          const urlParams = new URLSearchParams(window.location.search);
+          const roleFromUrl = urlParams.get('role');
           const userMetadata = session.user.user_metadata;
           console.log("User metadata:", userMetadata);
+          console.log("Role from URL:", roleFromUrl);
           
           // Try to get role from different possible locations
-          const role = userMetadata?.role || 
+          const role = roleFromUrl || 
+                      userMetadata?.role || 
                       session.user.app_metadata?.role || 
                       'customer';
                       
@@ -69,11 +73,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       if (session?.user) {
         setUser(session.user);
+        const urlParams = new URLSearchParams(window.location.search);
+        const roleFromUrl = urlParams.get('role');
         const userMetadata = session.user.user_metadata;
         console.log("User metadata on auth change:", userMetadata);
+        console.log("Role from URL:", roleFromUrl);
         
         // Try to get role from different possible locations
-        const role = userMetadata?.role || 
+        const role = roleFromUrl || 
+                    userMetadata?.role || 
                     session.user.app_metadata?.role || 
                     'customer';
                     
