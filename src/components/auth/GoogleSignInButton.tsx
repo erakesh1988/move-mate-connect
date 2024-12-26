@@ -20,10 +20,7 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
-          },
-          // Pass role in the options metadata
-          data: {
-            role: role,
+            role: role, // Pass role as a query parameter
           },
         },
       });
