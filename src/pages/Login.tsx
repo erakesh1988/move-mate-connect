@@ -47,19 +47,19 @@ const Login = () => {
             <TabsContent value="partner">
               <GoogleSignInButton role="partner" />
               <p className="mt-4 text-sm text-gray-600 text-center">
-                Sign in as a Partner if you're a company managing employee relocations
+                Sign in as a Partner if you're a relocation management company that helps multiple organizations manage their employee relocations
               </p>
             </TabsContent>
             <TabsContent value="vendor">
               <GoogleSignInButton role="vendor" />
               <p className="mt-4 text-sm text-gray-600 text-center">
-                Sign in as a Vendor if you provide relocation services to customers
+                Sign in as a Vendor if you provide specific relocation services like moving, storage, or housing
               </p>
             </TabsContent>
             <TabsContent value="hr">
               <GoogleSignInButton role="hr" />
               <p className="mt-4 text-sm text-gray-600 text-center">
-                Sign in as HR to manage your employees' relocations
+                Sign in as HR if you're an internal HR professional managing relocations for your company's employees
               </p>
             </TabsContent>
           </Tabs>
