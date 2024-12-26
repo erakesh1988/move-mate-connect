@@ -11,22 +11,32 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
   const { toast } = useToast();
 
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/dashboard/${role}`,
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-          role: role // Pass the role as a query parameter since it will be available in raw_user_meta_data
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/dashboard/${role}`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+            role: role
+          },
         },
-      },
-    });
+      });
 
-    if (error) {
+      if (error) {
+        console.error('Google login error:', error);
+        toast({
+          title: "Error signing in",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Unexpected error during Google login:', error);
       toast({
         title: "Error signing in",
-        description: error.message,
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
     }
@@ -56,7 +66,7 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
           fill="#EA4335"
         />
       </svg>
-      Continue with Google as {role.charAt(0).toUpperCase() + role.slice(1)}
+      Continue with Google as {role === 'hr' ? 'HR' : role.charAt(0).toUpperCase() + role.slice(1)}
     </Button>
   );
 };
