@@ -16,7 +16,7 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/dashboard/${role}`,
+          redirectTo: `${window.location.origin}/dashboard/${role}?role=${role}`,
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
