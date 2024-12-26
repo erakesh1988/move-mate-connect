@@ -29,6 +29,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         
         if (session?.user) {
           setUser(session.user);
+          
+          // Get role from metadata
           const userMetadata = session.user.user_metadata;
           console.log("User metadata:", userMetadata);
           
@@ -38,6 +40,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                       'customer';
                       
           console.log("Determined role:", role);
+          
+          // Update user metadata if role is not present
+          if (!userMetadata?.role) {
+            console.log("Updating user metadata with role:", role);
+            await supabase.auth.updateUser({
+              data: { role: role }
+            });
+          }
+          
           navigate(`/dashboard/${role}`);
         }
       } catch (error) {
@@ -67,6 +78,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     'customer';
                     
         console.log("Redirecting to dashboard with role:", role);
+        
+        // Update user metadata if role is not present
+        if (!userMetadata?.role) {
+          console.log("Updating user metadata with role:", role);
+          await supabase.auth.updateUser({
+            data: { role: role }
+          });
+        }
+        
         navigate(`/dashboard/${role}`);
       } else {
         setUser(null);
