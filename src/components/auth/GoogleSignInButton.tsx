@@ -12,7 +12,7 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
 
   const handleGoogleLogin = async () => {
     try {
-      console.log("Initiating Google login for role:", role);
+      console.log("Initiating Google login with role:", role);
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
@@ -20,7 +20,10 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
-            role: role, // Pass role as a query parameter
+          },
+          emailRedirectTo: `${window.location.origin}/dashboard/${role}`,
+          data: {
+            role: role,
           },
         },
       });

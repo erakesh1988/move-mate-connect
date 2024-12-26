@@ -26,14 +26,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         console.log("Initial session:", session);
+        
         if (session?.user) {
           setUser(session.user);
-          const role = session.user.user_metadata?.role || 'customer';
-          console.log("User role from session:", role);
+          const userMetadata = session.user.user_metadata;
+          console.log("User metadata:", userMetadata);
+          
+          // Try to get role from different possible locations
+          const role = userMetadata?.role || 
+                      session.user.app_metadata?.role || 
+                      'customer';
+                      
+          console.log("Determined role:", role);
           navigate(`/dashboard/${role}`);
         }
       } catch (error) {
         console.error("Error getting session:", error);
+        toast.error("Error initializing authentication");
       } finally {
         setLoading(false);
       }
@@ -44,14 +53,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      console.log("Auth state changed:", _event, session?.user);
+      console.log("Auth state changed:", _event);
+      console.log("Session:", session);
+      
       if (session?.user) {
         setUser(session.user);
-        const role = session.user.user_metadata?.role || 'customer';
-        console.log("Redirecting to dashboard:", role);
+        const userMetadata = session.user.user_metadata;
+        console.log("User metadata on auth change:", userMetadata);
+        
+        // Try to get role from different possible locations
+        const role = userMetadata?.role || 
+                    session.user.app_metadata?.role || 
+                    'customer';
+                    
+        console.log("Redirecting to dashboard with role:", role);
         navigate(`/dashboard/${role}`);
       } else {
         setUser(null);
+        navigate('/login');
       }
       setLoading(false);
     });
