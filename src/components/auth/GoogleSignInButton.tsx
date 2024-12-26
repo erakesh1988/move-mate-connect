@@ -20,10 +20,7 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
-          },
-          emailRedirectTo: `${window.location.origin}/dashboard/${role}`,
-          data: {
-            role: role,
+            role: role, // Pass role as a query parameter
           },
         },
       });
