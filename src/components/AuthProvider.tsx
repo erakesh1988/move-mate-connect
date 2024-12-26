@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Get initial session
     const initializeAuth = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
@@ -31,6 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setUser(session.user);
           const role = session.user.user_metadata?.role || 'customer';
           console.log("User role from session:", role);
+          navigate(`/dashboard/${role}`);
         }
       } catch (error) {
         console.error("Error getting session:", error);
@@ -41,19 +41,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     initializeAuth();
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       console.log("Auth state changed:", _event, session?.user);
-      setUser(session?.user ?? null);
-      setLoading(false);
-
-      if (_event === 'SIGNED_IN') {
-        const role = session?.user?.user_metadata?.role || 'customer';
+      if (session?.user) {
+        setUser(session.user);
+        const role = session.user.user_metadata?.role || 'customer';
         console.log("Redirecting to dashboard:", role);
         navigate(`/dashboard/${role}`);
+      } else {
+        setUser(null);
       }
+      setLoading(false);
     });
 
     return () => {
