@@ -38,16 +38,30 @@ const Login = () => {
                 </TabsTrigger>
               ))}
             </TabsList>
-            {USER_ROLES.map((role) => (
-              <TabsContent key={role} value={role}>
-                <GoogleSignInButton role={role as UserRole} />
-                {role === 'hr' && (
-                  <p className="mt-4 text-sm text-gray-600 text-center">
-                    Sign in as HR to manage your employees' relocations
-                  </p>
-                )}
-              </TabsContent>
-            ))}
+            <TabsContent value="customer">
+              <GoogleSignInButton role="customer" />
+              <p className="mt-4 text-sm text-gray-600 text-center">
+                Sign in as a Customer if you're an individual or employee planning to relocate
+              </p>
+            </TabsContent>
+            <TabsContent value="partner">
+              <GoogleSignInButton role="partner" />
+              <p className="mt-4 text-sm text-gray-600 text-center">
+                Sign in as a Partner if you're a company managing employee relocations
+              </p>
+            </TabsContent>
+            <TabsContent value="vendor">
+              <GoogleSignInButton role="vendor" />
+              <p className="mt-4 text-sm text-gray-600 text-center">
+                Sign in as a Vendor if you provide relocation services to customers
+              </p>
+            </TabsContent>
+            <TabsContent value="hr">
+              <GoogleSignInButton role="hr" />
+              <p className="mt-4 text-sm text-gray-600 text-center">
+                Sign in as HR to manage your employees' relocations
+              </p>
+            </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
