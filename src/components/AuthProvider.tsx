@@ -23,26 +23,48 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    const initializeAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log("Initial session:", session);
+        if (session?.user) {
+          setUser(session.user);
+          const role = session.user.user_metadata?.role || 'customer';
+          console.log("User role from session:", role);
+        }
+      } catch (error) {
+        console.error("Error getting session:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
 
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       console.log("Auth state changed:", _event, session?.user);
       setUser(session?.user ?? null);
       setLoading(false);
+
+      if (_event === 'SIGNED_IN') {
+        const role = session?.user?.user_metadata?.role || 'customer';
+        console.log("Redirecting to dashboard:", role);
+        navigate(`/dashboard/${role}`);
+      }
     });
 
-    return () => subscription.unsubscribe();
-  }, []);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
+      setUser(null);
       navigate('/login');
       toast.success("Successfully signed out");
     } catch (error) {

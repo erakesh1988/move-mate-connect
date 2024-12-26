@@ -19,18 +19,21 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         const userRole = user.user_metadata?.role || 'customer';
         const currentPath = location.pathname;
         
+        console.log("Current user role:", userRole);
+        console.log("Current path:", currentPath);
+        
         // Check if user is accessing the correct dashboard for their role
         if (currentPath.includes('/dashboard')) {
           const allowedPath = `/dashboard/${userRole}`;
           if (!currentPath.startsWith(allowedPath)) {
-            console.log(`User role: ${userRole}, Current path: ${currentPath}, Allowed path: ${allowedPath}`);
+            console.log(`Redirecting user from ${currentPath} to ${allowedPath}`);
             navigate(allowedPath);
             toast.error("You don't have access to this dashboard");
           }
         }
       }
     }
-  }, [user, loading, navigate, location]);
+  }, [user, loading, navigate, location.pathname]);
 
   if (loading) {
     return (

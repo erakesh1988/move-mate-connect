@@ -12,6 +12,7 @@ export const GoogleSignInButton = ({ role }: GoogleSignInButtonProps) => {
 
   const handleGoogleLogin = async () => {
     try {
+      console.log("Initiating Google login for role:", role);
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
