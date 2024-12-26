@@ -20,14 +20,14 @@ const HRDashboard = () => {
           employee:profiles!hr_employees_employee_id_fkey(
             id,
             first_name,
-            last_name
-          ),
-          moves(
-            id,
-            current_location,
-            destination,
-            move_date,
-            status
+            last_name,
+            moves(
+              id,
+              current_location,
+              destination,
+              move_date,
+              status
+            )
           )
         `)
         .eq("hr_id", user?.id);
@@ -64,8 +64,8 @@ const HRDashboard = () => {
               <p className="text-sm text-gray-500">{employee.company}</p>
             </CardHeader>
             <CardContent>
-              {employee.moves?.length > 0 ? (
-                employee.moves.map((move) => (
+              {employee.employee.moves?.length > 0 ? (
+                employee.employee.moves.map((move) => (
                   <div key={move.id} className="mb-4">
                     <p className="font-medium">Move Status: {move.status}</p>
                     <p className="text-sm">From: {move.current_location}</p>
