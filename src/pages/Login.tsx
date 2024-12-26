@@ -20,6 +20,10 @@ const Login = () => {
     }
   }, [user, navigate]);
 
+  const getRoleLabel = (role: string) => {
+    return role === 'hr' ? 'HR' : role.charAt(0).toUpperCase() + role.slice(1);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-powderblue to-white px-4">
       <Card className="w-full max-w-md">
@@ -34,7 +38,7 @@ const Login = () => {
             <TabsList className="grid w-full grid-cols-4 mb-8">
               {USER_ROLES.map((role) => (
                 <TabsTrigger key={role} value={role}>
-                  {role.charAt(0).toUpperCase() + role.slice(1)}
+                  {getRoleLabel(role)}
                 </TabsTrigger>
               ))}
             </TabsList>
