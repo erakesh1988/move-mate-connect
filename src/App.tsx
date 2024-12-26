@@ -11,6 +11,7 @@ import CustomerDashboard from "./pages/dashboards/CustomerDashboard";
 import PartnerDashboard from "./pages/dashboards/PartnerDashboard";
 import VendorDashboard from "./pages/dashboards/VendorDashboard";
 import AdminDashboard from "./pages/dashboards/AdminDashboard";
+import HRDashboard from "./pages/dashboards/HRDashboard";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
                     <Route path="partner/*" element={<PartnerDashboard />} />
                     <Route path="vendor/*" element={<VendorDashboard />} />
                     <Route path="admin/*" element={<AdminDashboard />} />
+                    <Route path="hr/*" element={<HRDashboard />} />
                   </Routes>
                 </ProtectedRoute>
               }
