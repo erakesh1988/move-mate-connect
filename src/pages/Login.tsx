@@ -31,7 +31,7 @@ const Login = () => {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="customer" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-8">
+            <TabsList className="grid w-full grid-cols-4 mb-8">
               {USER_ROLES.map((role) => (
                 <TabsTrigger key={role} value={role}>
                   {role.charAt(0).toUpperCase() + role.slice(1)}
@@ -41,6 +41,11 @@ const Login = () => {
             {USER_ROLES.map((role) => (
               <TabsContent key={role} value={role}>
                 <GoogleSignInButton role={role as UserRole} />
+                {role === 'hr' && (
+                  <p className="mt-4 text-sm text-gray-600 text-center">
+                    Sign in as HR to manage your employees' relocations
+                  </p>
+                )}
               </TabsContent>
             ))}
           </Tabs>

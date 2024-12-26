@@ -41,6 +41,45 @@ export type Database = {
           },
         ]
       }
+      hr_employees: {
+        Row: {
+          company: string
+          created_at: string
+          employee_id: string | null
+          hr_id: string | null
+          id: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          employee_id?: string | null
+          hr_id?: string | null
+          id?: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          employee_id?: string | null
+          hr_id?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_employees_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_hr_id_fkey"
+            columns: ["hr_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       moves: {
         Row: {
           created_at: string
@@ -251,7 +290,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      user_role: "customer" | "vendor" | "partner" | "admin"
+      user_role: "customer" | "vendor" | "partner" | "admin" | "hr"
     }
     CompositeTypes: {
       [_ in never]: never
