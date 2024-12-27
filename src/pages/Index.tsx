@@ -19,26 +19,30 @@ const Index = () => {
     }
   }, [user, navigate]);
 
-  const userGroupMessages = [
+  const carouselSlides = [
     {
       title: "For Relocating Employees",
       description: "Take control of your move. We streamline the relocation process, making your transition smooth and stress-free.",
-      cta: "Start Your Journey"
+      cta: "Start Your Journey",
+      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1973&auto=format&fit=crop",
     },
     {
       title: "For HR Professionals",
       description: "Manage employee relocations effortlessly. Our platform helps you track and support your team's moves with ease.",
-      cta: "Empower Your Team"
+      cta: "Empower Your Team",
+      image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop",
     },
     {
       title: "For Relocation Partners",
       description: "Connect with businesses and individuals who need your expertise. Grow your relocation services reach.",
-      cta: "Join Our Network"
+      cta: "Join Our Network",
+      image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=2069&auto=format&fit=crop",
     },
     {
       title: "For Service Vendors",
       description: "Showcase your moving, storage, or housing services to a targeted audience of relocating professionals.",
-      cta: "Partner With Us"
+      cta: "Partner With Us",
+      image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2069&auto=format&fit=crop",
     }
   ];
 
@@ -46,71 +50,47 @@ const Index = () => {
     <div className="min-h-screen">
       <NavBar />
       
-      {/* Solutions Section with Gradient Background */}
-      <div className="bg-gradient-to-b from-[#8B93C7] to-[#5B63A3] py-20">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center text-white mb-16">
-            Solutions for Every Move
-          </h2>
-          
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
-              {userGroupMessages.map((message, index) => (
-                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 p-2">
-                  <div className="bg-white rounded-3xl p-8 h-full shadow-lg flex flex-col">
-                    <h3 className="text-2xl font-bold text-midnight mb-4">
-                      {message.title}
-                    </h3>
-                    <p className="text-midnight/80 mb-8 flex-grow text-lg">
-                      {message.description}
+      {/* Hero Carousel Section */}
+      <div className="h-screen relative">
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true
+          }}
+          className="w-full h-full"
+        >
+          <CarouselContent className="h-full">
+            {carouselSlides.map((slide, index) => (
+              <CarouselItem key={index} className="h-full relative">
+                <div 
+                  className="w-full h-full bg-cover bg-center relative"
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(0, 0, 92, 0.7), rgba(0, 0, 92, 0.5)), url('${slide.image}')`
+                  }}
+                >
+                  <div className="absolute inset-0 flex flex-col justify-center items-start px-16 max-w-3xl">
+                    <h2 className="text-5xl font-bold text-white mb-6 animate-fade-up">
+                      {slide.title}
+                    </h2>
+                    <p className="text-2xl text-white/90 mb-8 animate-fade-up">
+                      {slide.description}
                     </p>
                     <Button 
-                      variant="secondary"
-                      className="w-full bg-mint hover:bg-mint/90 text-midnight text-lg py-6 rounded-xl"
+                      size="lg"
+                      className="animate-fade-up bg-coral hover:bg-coral/90 text-white text-xl py-8 px-12"
                       onClick={() => navigate('/login')}
                     >
-                      {message.cta}
+                      {slide.cta}
+                      <ArrowRight className="ml-2 h-6 w-6" />
                     </Button>
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="h-12 w-12 -left-16" />
-            <CarouselNext className="h-12 w-12 -right-16" />
-          </Carousel>
-        </div>
-      </div>
-
-      {/* Hero Section with Background Image */}
-      <div 
-        className="relative h-[70vh] bg-cover bg-center flex items-center justify-center"
-        style={{
-          backgroundImage: "linear-gradient(rgba(0, 0, 92, 0.7), rgba(234, 245, 254, 0.7)), url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d')",
-          backgroundBlendMode: "overlay"
-        }}
-      >
-        <div className="text-center px-4 max-w-4xl mx-auto">
-          <h1 className="text-5xl font-bold text-white mb-6 animate-fade-up">
-            Welcome to Move Mate Connect
-          </h1>
-          <p className="text-xl text-white/90 mb-8 animate-fade-up">
-            Connect with expert movers and make your relocation seamless. Our platform helps you find reliable moving services tailored to your needs.
-          </p>
-          <Button 
-            size="lg" 
-            className="animate-fade-up bg-coral hover:bg-coral/90 text-white"
-            onClick={() => navigate('/login')}
-          >
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="h-12 w-12 left-4" />
+          <CarouselNext className="h-12 w-12 right-4" />
+        </Carousel>
       </div>
 
       {/* Search Section */}
