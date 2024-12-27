@@ -1,5 +1,5 @@
-import { createContext, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useContext, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import { toast } from "sonner";
@@ -20,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, loading } = useAuthState();
 
   const signOut = async () => {
@@ -33,21 +34,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Handle navigation based on auth state
-  if (user && !loading) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const role = determineUserRole(user, urlParams);
-    const currentPath = window.location.pathname;
-    const expectedPath = `/dashboard/${role}`;
-    
-    if (!currentPath.startsWith(expectedPath) && currentPath !== '/login') {
-      console.log(`Redirecting to ${expectedPath}`);
-      navigate(expectedPath);
+  useEffect(() => {
+    if (!loading) {
+      if (user) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const role = determineUserRole(user, urlParams);
+        const currentPath = location.pathname;
+        const expectedPath = `/dashboard/${role}`;
+        
+        if (!currentPath.startsWith(expectedPath) && currentPath !== '/login') {
+          console.log(`Redirecting to ${expectedPath}`);
+          navigate(expectedPath);
+        }
+      } else if (location.pathname !== '/login' && location.pathname !== '/') {
+        console.log("No user found, redirecting to login");
+        navigate('/login');
+      }
     }
-  } else if (!user && !loading && window.location.pathname !== '/login') {
-    console.log("No user found, redirecting to login");
-    navigate('/login');
-  }
+  }, [user, loading, navigate, location.pathname]);
 
   return (
     <AuthContext.Provider value={{ user, loading, signOut }}>
