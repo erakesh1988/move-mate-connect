@@ -43,9 +43,50 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-midnight to-powderblue">
+    <div className="min-h-screen">
       <NavBar />
       
+      {/* Solutions Section with Gradient Background */}
+      <div className="bg-gradient-to-b from-[#8B93C7] to-[#5B63A3] py-20">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center text-white mb-16">
+            Solutions for Every Move
+          </h2>
+          
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {userGroupMessages.map((message, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 p-2">
+                  <div className="bg-white rounded-3xl p-8 h-full shadow-lg flex flex-col">
+                    <h3 className="text-2xl font-bold text-midnight mb-4">
+                      {message.title}
+                    </h3>
+                    <p className="text-midnight/80 mb-8 flex-grow text-lg">
+                      {message.description}
+                    </p>
+                    <Button 
+                      variant="secondary"
+                      className="w-full bg-mint hover:bg-mint/90 text-midnight text-lg py-6 rounded-xl"
+                      onClick={() => navigate('/login')}
+                    >
+                      {message.cta}
+                    </Button>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="h-12 w-12 -left-16" />
+            <CarouselNext className="h-12 w-12 -right-16" />
+          </Carousel>
+        </div>
+      </div>
+
       {/* Hero Section with Background Image */}
       <div 
         className="relative h-[70vh] bg-cover bg-center flex items-center justify-center"
@@ -72,47 +113,8 @@ const Index = () => {
         </div>
       </div>
 
-      {/* User Groups Carousel */}
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center text-midnight mb-12">
-          Solutions for Every Move
-        </h2>
-        
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true
-          }}
-          className="w-full"
-        >
-          <CarouselContent>
-            {userGroupMessages.map((message, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <div className="bg-white rounded-xl p-6 h-full shadow-lg">
-                  <h3 className="text-xl font-semibold text-midnight mb-4">
-                    {message.title}
-                  </h3>
-                  <p className="text-midnight/80 mb-6">
-                    {message.description}
-                  </p>
-                  <Button 
-                    variant="secondary"
-                    className="w-full bg-mint hover:bg-mint/90 text-midnight"
-                    onClick={() => navigate('/login')}
-                  >
-                    {message.cta}
-                  </Button>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </div>
-
       {/* Search Section */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 py-16 bg-powderblue">
         <div className="mb-16">
           <SearchDestination />
         </div>
